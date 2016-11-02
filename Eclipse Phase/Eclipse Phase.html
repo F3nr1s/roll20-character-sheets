@@ -1,9 +1,129 @@
+<script type="text/worker">
+
+on("change:morph_apt_max", function(eventInfo) {
+    getAttrs(['morph_apt_max'], function(values){
+       setAttrs({
+           cog_max: values.morph_apt_max,
+            coo_max: values.morph_apt_max,
+            int_max: values.morph_apt_max,
+            ref_max: values.morph_apt_max,
+            sav_max: values.morph_apt_max,
+            som_max: values.morph_apt_max,
+            wil_max: values.morph_apt_max
+       });
+    });
+});
+
+on("change:cog_max change:cog_morph change:cog_base", function(eventInfo){
+    getAttrs(['cog_base', 'cog_morph', 'cog_max'], function(values){
+        setAttrs({cog: Math.min(+values.cog_base + +values.cog_morph, +values.cog_max)});
+    });
+});
+
+on("change:coo_max change:coo_morph change:coo_base", function(eventInfo){
+    getAttrs(['coo_base', 'coo_morph', 'coo_max'], function(values){
+        setAttrs({coo: Math.min(+values.coo_base + +values.coo_morph, +values.coo_max)});
+    });
+});
+
+on("change:int_max change:int_morph change:int_base", function(eventInfo){
+    getAttrs(['int_base', 'int_morph', 'int_max'], function(values){
+        setAttrs({int: Math.min(+values.int_base + +values.int_morph, +values.int_max)});
+    });
+});
+
+on("change:ref_max change:ref_morph change:ref_base", function(eventInfo){
+    getAttrs(['ref_base', 'ref_morph', 'ref_max'], function(values){
+        setAttrs({ref: Math.min(+values.ref_base + +values.ref_morph, +values.ref_max)});
+    });
+});
+
+on("change:sav_max change:sav_morph change:sav_base", function(eventInfo){
+    getAttrs(['sav_base', 'sav_morph', 'sav_max'], function(values){
+        setAttrs({sav: Math.min(+values.sav_base + +values.sav_morph, +values.sav_max)});
+    });
+});
+
+on("change:som_max change:som_morph change:som_base", function(eventInfo){
+    getAttrs(['som_base', 'som_morph', 'som_max'], function(values){
+        setAttrs({som: Math.min(+values.som_base + +values.som_morph, +values.som_max)});
+    });
+});
+
+on("change:wil_max change:wil_morph change:wil_base", function(eventInfo){
+    getAttrs(['wil_base', 'wil_morph', 'wil_max'], function(values){
+        setAttrs({wil: Math.min(+values.wil_base + +values.wil_morph, +values.wil_max)});
+    });
+});
+
+on("change:wil", function(eventInfo){
+    getAttrs(['wil'], function(values){
+        setAttrs({luc: +values.wil * 2});
+    });
+});
+
+on("change:luc", function(eventInfo){
+    getAttrs(['luc'], function(values){
+        setAttrs({
+            tt: Math.ceil(+values.luc / 5),
+            ir: +values.luc * 2
+        });
+    });
+});
+
+on("change:ref change:int", function(eventInfo){
+    getAttrs(['ref', 'int'], function(values){
+        setAttrs({init: (+values.ref + +values.int) / 5});
+    })
+});
+
+on("change:som", function(eventInfo){
+    getAttrs(['som'], function(values){
+        setAttrs({db: Math.floor(+values.som / 10)});   
+    });
+});
+
+on("change:morph_durability", function(eventInfo){
+    getAttrs(['morph_durability'], function(values){
+        setAttrs({
+            dur: +values.morph_durability,
+            dr: Math.ceil(+values.morph_durability * 1.5)
+        });
+    });
+});
+
+on("change:morph_wound_threshold", function(eventInfo){
+   getAttrs(['morph_wound_threshold'], function(values){
+       setAttrs({wt: +values.morph_wound_threshold});
+   }) 
+});
+
+/*
+cog_max
+coo_max
+int_max
+ref_max
+sav_max
+som_max
+wil_max
+*/
+
+</script>
+
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab1" value="1" title="Dossier" checked="checked" />
+<span class="sheet-tab sheet-tab1">Dossier</span>
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab2" value="2" title="Skills" />
+<span class="sheet-tab sheet-tab2">Skills</span>
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab3" value="3" title="Morph" />
+<span class="sheet-tab sheet-tab3">Morph</span>
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab4" value="4" title="Muse" />
+<span class="sheet-tab sheet-tab4">Muse</span>
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab5" value="5" title="Equipment" />
+<span class="sheet-tab sheet-tab5">Equipment</span>
 <input type="radio" name="attr_tab" class="sheet-tab sheet-tab6" value="6" title="Story" />
+<span class="sheet-tab sheet-tab6">Story</span>
+<input type="radio" name="attr_tab" class="sheet-tab sheet-tab99" value="99" title="All" />
+<span class="sheet-tab sheet-tab99">All</span>
 
 <div class="sheet-tab-br"></div>
 
@@ -102,13 +222,13 @@
                         </tr>
                         <tr>
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" align="right">Total</th>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{cog_base}+@{cog_morph}" name="attr_cog" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{coo_base}+@{coo_morph}" name="attr_coo" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{int_base}+@{int_morph}" name="attr_int" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{ref_base}+@{ref_morph}" name="attr_ref" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{sav_base}+@{sav_morph}" name="attr_sav" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{som_base}+@{som_morph}" name="attr_som" disabled="true" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="@{wil_base}+@{wil_morph}" name="attr_wil" disabled="true" /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_cog" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_coo" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_int" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_ref" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_sav" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_som" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_wil" readonly /></div></td>
                         </tr>
                     </table>
                     <h3 align="right">Stats</h3>
@@ -121,7 +241,7 @@
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" >WT</th>
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" >DUR</th>
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" >DR</th>
-                            <th class="sheet-table_stats-heading" style="font-size:0.8em" >INT</th>
+                            <th class="sheet-table_stats-heading" style="font-size:0.8em" >INIT</th>
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" >SPD</th>
                             <th class="sheet-table_stats-heading" style="font-size:0.8em" >DB</th>
                         </tr>
@@ -130,11 +250,11 @@
                             <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_tt" /></div></td>
                             <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_luc" /></div></td>
                             <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_ir" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_wt" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_dur" /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_wt" readonly /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_dur" readonly /></div></td>
                             <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_dr" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_int-stat" /></div></td>
-                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_spd" /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_init" /></div></td>
+                            <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="1" name="attr_spd" /></div></td>
                             <td><div class="sheet-backwhite_center" ><input class="input" type="number" value="0" name="attr_db" /></div></td>
                         </tr>
                     </table>
@@ -390,6 +510,16 @@
                             <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_sav_morph" /></div></td>
                             <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_som_morph" /></div></td>
                             <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_wil_morph" /></div></td>
+                        </tr>
+                        <tr>
+                            <th class="sheet-table_stats-heading" style="font-size:0.8em" align="right"><b>Aptitude Max</b></th>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_cog_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_coo_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_int_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_ref_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_sav_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_som_max" /></div></td>
+                            <td><div class="sheet-stats-number"><input class="input" type="number" value="0" name="attr_wil_max" /></div></td>
                         </tr>
                         <tr>
                             <td><br></td>
